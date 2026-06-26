@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>McMaster Driving Academy — Learn to Drive. Drive with Confidence.</title>
+  <meta name="description" content="Professional driving instruction in Gqeberha. Code 8, Code 10 & Code 14 — learner's license to full license. Book online." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #1C2E3A;
+      --primary-dark: #15232D;
+      --primary-light: #3A5A6B;
+      --accent: #D4935C;
+      --accent-light: #E8CBA4;
+      --accent-glow: rgba(212,147,92,0.25);
+      --bg: #FAF7F2;
+      --surface: #FFFFFF;
+      --ink: #1A1A1A;
+      --muted: #6B6B6B;
+      --divider: #E8E3DC;
+      --deep: #1C2E3A;
+      --radius: 1.25rem;
+      --radius-lg: 2rem;
+      --radius-xl: 2.5rem;
+      --radius-xxl: 3rem;
+      --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--ink); overflow-x: hidden; }
+    ::selection { background: var(--accent); color: var(--bg); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-light); }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .section-title .accent-line {
+      display: block;
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-style: italic;
+      color: var(--accent);
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      margin-top: 0.15em;
+    }
+
+    .magnetic-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .magnetic-btn:hover { transform: scale(1.04) translateY(-2px); }
+    .magnetic-btn:active { transform: scale(0.97); }
+    .magnetic-btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);
+      transform: translateY(100%);
+      transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .magnetic-btn:hover::before { transform: translateY(0); }
+    .magnetic-btn.primary { background: var(--accent); color: white; box-shadow: 0 8px 32px var(--accent-glow); }
+    .magnetic-btn.outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.3); }
+    .magnetic-btn.outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .glass {
+      background: rgba(250,247,242,0.78);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      border: 1px solid rgba(212,147,92,0.15);
+    }
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(28,46,58,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(28,46,58,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(212,147,92,0.5); }
+      70% { box-shadow: 0 0 0 18px rgba(212,147,92,0); }
+      100% { box-shadow: 0 0 0 0 rgba(212,147,92,0); }
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    @keyframes gear-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes oil-fall {
+      0% { transform: translateY(-20px); opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { transform: translateY(80px); opacity: 0; }
+    }
+    @keyframes oil-ripple {
+      0% { transform: scale(0.3); opacity: 0.8; }
+      80% { transform: scale(2.5); opacity: 0; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-fade-in-up { animation: fade-in-up 0.5s ease-out; }
+
+    @keyframes sweep {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 1.25rem; }
+    }
+
+    .noise-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      opacity: 0.03;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav id="navbar" class="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">
+      <span class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      <span class="brand-text">McMaster Driving Academy</span>
+    </a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#approach">Approach</a>
+      <a href="#process">Process</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobileOverlay">
+  <div class="mobile-header">
+    <span class="brand-text" style="color:white;font-size:1.25rem">McMaster</span>
+    <button id="closeOverlay" aria-label="Close menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="mobile-links">
+    <a href="#hero">Home</a>
+    <a href="#services">Services</a>
+    <a href="#approach">Approach</a>
+    <a href="#process">Process</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="magnetic-btn primary" style="width:100%;justify-content:center;margin-top:1rem">Book Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+</div>
+
+<style>
+.navbar {
+  position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 100;
+  width: calc(100% - 2rem); max-width: 1200px; border-radius: 9999px;
+  padding: 0.5rem 0.75rem; transition: all 0.5s ease;
+}
+.navbar.transparent { background: transparent; }
+.navbar.scrolled { background: rgba(250,247,242,0.78); backdrop-filter: blur(20px) saturate(1.4); border: 1px solid rgba(212,147,92,0.15); box-shadow: 0 4px 40px rgba(28,46,58,0.08); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 0 0.75rem; }
+.nav-brand { display: flex; align-items: center; gap: 0.6rem; }
+.brand-icon { width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; box-shadow: 0 0 0 2px rgba(212,147,92,0.3); transition: box-shadow 0.3s; }
+.nav-brand:hover .brand-icon { box-shadow: 0 0 0 4px rgba(212,147,92,0.4); }
+.brand-text { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em; transition: color 0.3s; }
+.navbar.transparent .brand-text { color: white; }
+.navbar.scrolled .brand-text { color: var(--ink); }
+.nav-links { display: none; gap: 1.75rem; }
+.nav-links a { font-size: 0.85rem; font-weight: 500; transition: color 0.3s; }
+.navbar.transparent .nav-links a { color: rgba(255,255,255,0.8); }
+.navbar.transparent .nav-links a:hover { color: white; }
+.navbar.scrolled .nav-links a { color: var(--muted); }
+.navbar.scrolled .nav-links a:hover { color: var(--accent); }
+.hamburger { display: flex; color: white; padding: 0.4rem; }
+.navbar.scrolled .hamburger { color: var(--ink); }
+.mobile-overlay {
+  position: fixed; inset: 0; z-index: 200; background: rgba(28,46,58,0.95); backdrop-filter: blur(24px);
+  display: flex; flex-direction: column; padding: 2rem 1.5rem; transform: translateY(-100%); transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.mobile-overlay.open { transform: translateY(0); }
+.mobile-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem; }
+.mobile-header button { color: rgba(255,255,255,0.6); }
+.mobile-links { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+.mobile-links a {
+  font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: rgba(255,255,255,0.85);
+  padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: color 0.2s;
+}
+.mobile-links a:hover { color: var(--accent); }
+@media (min-width: 900px) {
+  .nav-links { display: flex; }
+  .hamburger { display: none; }
+}
+</style>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero" class="hero">
+  <div class="hero-bg">
+    <div class="hero-overlay"></div>
+    <div class="hero-gradient"></div>
+  </div>
+  <div class="hero-particles">
+    <span class="hero-particle" style="top:25%;right:20%;width:12px;height:12px;animation-delay:0s"></span>
+    <span class="hero-particle" style="top:45%;right:8%;width:8px;height:8px;animation-delay:1.2s"></span>
+    <span class="hero-particle" style="top:55%;right:22%;width:10px;height:10px;animation-delay:2.4s"></span>
+    <span class="hero-particle" style="top:35%;right:30%;width:6px;height:6px;animation-delay:0.8s"></span>
+    <span class="hero-particle" style="top:60%;right:12%;width:9px;height:9px;animation-delay:3s"></span>
+  </div>
+  <div class="hero-content">
+    <p class="hero-location hero-reveal">Gqeberha, Eastern Cape</p>
+    <h1 class="hero-title">
+      <span class="hero-reveal hero-line1">Learn To Drive</span>
+      <span class="hero-reveal hero-line2">Drive with <em>Confidence.</em></span>
+    </h1>
+    <p class="hero-desc hero-reveal">
+      Professional driving instruction in Gqeberha. Code 8, Code 10 & Code 14 —
+      learner's license to full license. <strong>Every lesson builds confidence.</strong>
+    </p>
+    <div class="hero-actions hero-reveal">
+      <button class="magnetic-btn primary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+        View Services <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+      <a href="https://wa.me/27815385402?text=Hi%20McMaster%20Driving%20Academy!" target="_blank" rel="noopener" class="magnetic-btn outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.102-1.025-1.847-2.289-2.063-2.676-.216-.387-.023-.597.163-.79.167-.173.371-.45.557-.675.186-.225.248-.386.372-.644.124-.258.062-.483-.031-.675-.094-.192-.67-1.615-.919-2.212-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.199 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 2C6.477 2 2 6.477 2 12c0 2.136.671 4.116 1.822 5.74L2.3 22l4.305-1.514A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+        WhatsApp Us
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<style>
+.hero {
+  position: relative; min-height: 100dvh; width: 100%;
+  display: flex; align-items: center; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: var(--deep);
+  background-image: url('./hero.png');
+  background-size: cover; background-position: center 30%;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top right, rgba(28,46,58,0.88) 0%, rgba(28,46,58,0.45) 50%, rgba(28,46,58,0.25) 100%);
+}
+.hero-gradient {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(28,46,58,0.95) 0%, transparent 50%);
+}
+.hero-particles { position: absolute; inset: 0; pointer-events: none; }
+.hero-particle {
+  position: absolute; border-radius: 50%;
+  background: var(--accent); opacity: 0.5;
+  animation: float 6s ease-in-out infinite;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 7rem 2rem 5rem; max-width: 800px; margin: 0 auto; text-align: center;
+}
+.hero-location {
+  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55); margin-bottom: 1.5rem;
+}
+.hero-title { margin-bottom: 1.5rem; }
+.hero-line1 {
+  display: block;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.5rem, 8vw, 5.5rem); line-height: 1;
+  letter-spacing: -0.03em; color: white;
+}
+.hero-line2 {
+  display: block;
+  font-family: var(--font-serif); font-style: italic; font-weight: 500;
+  font-size: clamp(3rem, 12vw, 8rem); line-height: 0.92;
+  color: var(--accent); margin-top: 0.05em;
+}
+.hero-desc {
+  max-width: 560px; margin: 0 auto 2.5rem;
+  color: rgba(255,255,255,0.7); font-size: 1.05rem; line-height: 1.7;
+}
+.hero-desc strong { color: white; font-weight: 600; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; right: 2rem; z-index: 2;
+  display: none; flex-direction: column; align-items: center; gap: 0.5rem;
+  color: rgba(255,255,255,0.3); font-family: var(--font-mono); font-size: 0.55rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+.scroll-line { width: 1px; height: 2rem; background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent); }
+@media (min-width: 768px) {
+  .hero-scroll { display: flex; }
+  .hero-content { padding: 7rem 4rem 5rem; }
+}
+</style>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services" class="section services">
+  <div class="container">
+    <div class="reveal fade-up">
+      <p class="section-eyebrow">/ Our Services</p>
+      <h2 class="section-title">
+        Pick your license class.
+        <span class="accent-line">Pick a date and book. We take it from there.</span>
+      </h2>
+    </div>
+
+    <!-- Service selector -->
+    <div class="service-tabs reveal fade-up">
+      <div class="tab-row">
+        <button class="service-tab active" data-service="code8">Code 8</button>
+        <button class="service-tab" data-service="code10">Code 10</button>
+        <button class="service-tab" data-service="code14">Code 14</button>
+      </div>
+      <div class="tab-row">
+        <button class="service-tab" data-service="learners">Learner's</button>
+      </div>
+    </div>
+
+    <!-- Code 8 -->
+    <div class="service-panel active" id="panel-code8">
+      <div class="panel-grid">
+        <div class="panel-info">
+          <span class="panel-tag">Manual &amp; Auto</span>
+          <h3 class="panel-title">Code 8 <span style="font-weight:400;font-size:0.5em;color:var(--muted)">/ B</span></h3>
+          <p class="panel-desc">Driving license for standard private cars, SUVs, and small bakkies. The most common license for everyday South African drivers.</p>
+          <div class="panel-details">
+            <div><span class="detail-label">K53</span><span>Light Motor Vehicle — GVM ≤ 3,500 kg</span></div>
+            <div><span class="detail-label">Who</span><span>Anyone driving to work, running errands, or cruising on weekends</span></div>
+            <div><span class="detail-label">Why</span><span>90% of SA drivers need this. Simple, available in manual or auto.</span></div>
+          </div>
+        </div>
+        <div class="panel-pricing">
+          <div class="pkg-grid">
+            <div class="pkg-card" data-pkg='{"label":"1 Hour Taster","price":"R300/hr","service":"Code 8"}'>
+              <span class="pkg-label">1 Hour Taster</span>
+              <span class="pkg-price">R300<small>/hr</small></span>
+            </div>
+            <div class="pkg-card featured" data-pkg='{"label":"10 Hours","price":"R2,800","service":"Code 8"}'>
+              <span class="pkg-label">10 Hours</span>
+              <span class="pkg-price">R2,800</span>
+              <span class="pkg-badge">Popular</span>
+            </div>
+            <div class="pkg-card" data-pkg='{"label":"20 Hours","price":"R5,400","service":"Code 8"}'>
+              <span class="pkg-label">20 Hours</span>
+              <span class="pkg-price">R5,400</span>
+            </div>
+          </div>
+          <div class="addon-row" style="display:none" id="addon-code8">
+            <label class="addon-toggle">
+              <input type="checkbox" id="addonCheck-code8" />
+              <span class="addon-check"></span>
+              <span class="addon-label">Car Hire (Test Day)</span>
+              <span class="addon-price">R800</span>
+            </label>
+          </div>
+          <button class="magnetic-btn primary book-btn" style="width:100%;justify-content:center;margin-top:0.75rem" data-service="Code 8">
+            Book Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code 10 -->
+    <div class="service-panel" id="panel-code10">
+      <div class="panel-grid">
+        <div class="panel-info">
+          <span class="panel-tag">Code 10 / C1</span>
+          <h3 class="panel-title">Code 10 <span style="font-weight:400;font-size:0.5em;color:var(--muted)">/ C1</span></h3>
+          <p class="panel-desc">Mid-sized commercial trucks, minibuses, and delivery vehicles. Also covers all Code 8 vehicles. The ultimate CV booster.</p>
+          <div class="panel-details">
+            <div><span class="detail-label">K53</span><span>Heavy Motor Vehicle — GVM 3,500–16,000 kg</span></div>
+            <div><span class="detail-label">Who</span><span>Smart beginners wanting a shortcut, delivery drivers, courier jobs</span></div>
+            <div><span class="detail-label">Why</span><span>Easier K53 test than Code 8 (no yard parking), covers normal cars too.</span></div>
+          </div>
+        </div>
+        <div class="panel-pricing">
+          <div class="pkg-grid">
+            <div class="pkg-card" data-pkg='{"label":"1 Hour Taster","price":"R380/hr","service":"Code 10"}'>
+              <span class="pkg-label">1 Hour Taster</span>
+              <span class="pkg-price">R380<small>/hr</small></span>
+            </div>
+            <div class="pkg-card featured" data-pkg='{"label":"10 Hours","price":"R3,500","service":"Code 10"}'>
+              <span class="pkg-label">10 Hours</span>
+              <span class="pkg-price">R3,500</span>
+              <span class="pkg-badge">Popular</span>
+            </div>
+            <div class="pkg-card" data-pkg='{"label":"20 Hours","price":"R6,600","service":"Code 10"}'>
+              <span class="pkg-label">20 Hours</span>
+              <span class="pkg-price">R6,600</span>
+            </div>
+          </div>
+          <div class="addon-row" style="display:none" id="addon-code10">
+            <label class="addon-toggle">
+              <input type="checkbox" id="addonCheck-code10" />
+              <span class="addon-check"></span>
+              <span class="addon-label">Truck Hire (Test Day)</span>
+              <span class="addon-price">R1,200</span>
+            </label>
+          </div>
+          <button class="magnetic-btn primary book-btn" style="width:100%;justify-content:center;margin-top:0.75rem" data-service="Code 10">
+            Book Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code 14 -->
+    <div class="service-panel" id="panel-code14">
+      <div class="panel-grid">
+        <div class="panel-info">
+          <span class="panel-tag" style="background:var(--accent);color:white;border-color:var(--accent)">On Request</span>
+          <h3 class="panel-title">Code 14 <span style="font-weight:400;font-size:0.5em;color:var(--muted)">/ EC</span></h3>
+          <p class="panel-desc">The highest license tier in SA. Heavy freight trucks, semi-trucks, and large trailers. The master key to the transport industry.</p>
+          <div class="panel-details">
+            <div><span class="detail-label">K53</span><span>Extra Heavy Combination — GCM &gt; 16,000 kg</span></div>
+            <div><span class="detail-label">Who</span><span>Serious drivers chasing big paydays in long-haul logistics</span></div>
+            <div><span class="detail-label">Why</span><span>Top-tier transport salaries. Handle the biggest rigs on SA roads.</span></div>
+          </div>
+        </div>
+        <div class="panel-pricing">
+          <div class="request-card">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+            <h4 style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--ink)">Available on Request</h4>
+            <p style="font-size:0.9rem;color:var(--muted);max-width:280px">Drop us a message and we'll tailor a package to your needs.</p>
+            <button class="magnetic-btn primary book-btn" style="margin-top:1rem" data-service="Code 14">
+              Message Us <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learner's -->
+    <div class="service-panel" id="panel-learners">
+      <div class="panel-grid">
+        <div class="panel-info">
+          <span class="panel-tag">Car / Truck</span>
+          <h3 class="panel-title">Learner's License <span style="font-weight:400;font-size:0.5em;color:var(--muted)">/ K53 Theory</span></h3>
+          <p class="panel-desc">Theory exam preparation covering K53 rules of the road, road signs, and vehicle controls. Past papers & mock tests included.</p>
+          <div class="panel-details">
+            <div><span class="detail-label">Includes</span><span>6 classroom sessions covering all test material</span></div>
+            <div><span class="detail-label">Who</span><span>Anyone 17+ wanting to legally drive on public roads</span></div>
+            <div><span class="detail-label">What</span><span>Your official paper Learner's License — walk in prepared, walk out with your permit</span></div>
+          </div>
+        </div>
+        <div class="panel-pricing">
+          <div class="single-price">
+            <span class="price-amount">R400</span>
+            <span class="price-label">Full course</span>
+            <p style="font-size:0.85rem;color:var(--muted);margin:0.5rem 0 1.5rem">6 classroom sessions covering all test material. Past papers & mock tests included.</p>
+            <button class="magnetic-btn primary book-btn" style="width:100%;justify-content:center" data-service="Learner's License">
+              Book Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.services { padding: 5rem 0 6rem; position: relative; }
+.services::before {
+  content: ''; position: absolute; inset: 0; background: var(--bg); z-index: 0;
+}
+.services .container { position: relative; z-index: 1; }
+.service-tabs {
+  display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 2.5rem 0 2rem;
+  padding: 0.5rem; background: white; border: 1px solid var(--divider); border-radius: var(--radius-lg);
+  width: fit-content; align-items: center;
+}
+.service-tabs .tab-row {
+  display: flex; gap: 0.4rem;
+}
+.service-tabs .tab-row:first-child {
+  flex: 1;
+}
+.service-tabs .tab-row .service-tab {
+  flex: 1; text-align: center; white-space: nowrap;
+}
+@media (min-width: 640px) {
+  .service-tabs { flex-wrap: wrap; }
+  .service-tabs .tab-row .service-tab { flex: none; }
+}
+.service-tab {
+  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.05em;
+  padding: 0.6rem 1.5rem; border-radius: 9999px; font-weight: 600;
+  color: var(--muted); transition: all 0.3s;
+}
+.service-tab:hover { color: var(--accent); }
+.service-tab.active { background: var(--accent); color: white; box-shadow: 0 4px 16px var(--accent-glow); }
+.service-panel { display: none; animation: fade-in-up 0.4s ease-out; }
+.service-panel.active { display: block; }
+.panel-grid {
+  display: grid; grid-template-columns: 1fr; gap: 2rem;
+  background: white; border: 1px solid var(--divider); border-radius: var(--radius-xl);
+  padding: 2rem; box-shadow: 0 4px 24px rgba(28,46,58,0.06);
+}
+@media (min-width: 900px) {
+  .panel-grid { grid-template-columns: 1.2fr 1fr; }
+}
+.panel-tag {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.25rem 0.75rem; border-radius: 9999px;
+  background: rgba(212,147,92,0.1); color: var(--accent); border: 1px solid rgba(212,147,92,0.2);
+  margin-bottom: 0.75rem;
+}
+.panel-title {
+  font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 800; letter-spacing: -0.02em; color: var(--ink); line-height: 1.1;
+}
+.panel-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.65; margin: 1rem 0 1.5rem; max-width: 520px; }
+.panel-details { display: flex; flex-direction: column; gap: 0.75rem; }
+.panel-details > div { display: flex; gap: 0.75rem; align-items: baseline; font-size: 0.85rem; }
+.detail-label {
+  font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--primary-light); background: rgba(28,46,58,0.06); padding: 0.15rem 0.5rem;
+  border-radius: 4px; white-space: nowrap; flex-shrink: 0;
+}
+.pkg-grid { display: flex; flex-direction: column; gap: 0.6rem; }
+.pkg-card {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.9rem 1.25rem; border-radius: var(--radius);
+  border: 1px solid var(--divider); background: var(--bg);
+  cursor: pointer; transition: all 0.3s;
+}
+.pkg-card:hover { border-color: var(--accent); }
+.pkg-card.featured {
+  background: var(--primary); color: white; border-color: var(--primary);
+  box-shadow: 0 4px 20px rgba(28,46,58,0.2);
+}
+.pkg-label { font-size: 0.9rem; font-weight: 500; }
+.pkg-card.featured .pkg-label { color: white; }
+.pkg-price { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--accent); }
+.pkg-card.featured .pkg-price { color: var(--accent-light); }
+.pkg-price small { font-weight: 400; font-size: 0.65rem; color: var(--muted); }
+.pkg-badge {
+  font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase;
+  background: var(--accent); color: white; padding: 0.15rem 0.6rem; border-radius: 9999px;
+  margin-left: 0.5rem;
+}
+.addon-row {
+  margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--divider);
+}
+.addon-toggle {
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 1rem;
+  border-radius: var(--radius); border: 1px solid var(--divider);
+  cursor: pointer; transition: all 0.2s; background: var(--bg);
+}
+.addon-toggle:hover { border-color: var(--accent); }
+.addon-toggle:has(input:checked) {
+  background: var(--primary); color: white; border-color: var(--primary);
+}
+.addon-toggle input { display: none; }
+.addon-check {
+  width: 1.1rem; height: 1.1rem; border-radius: 0.3rem;
+  border: 2px solid var(--divider); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.addon-toggle:has(input:checked) .addon-check {
+  background: var(--accent); border-color: var(--accent);
+}
+.addon-toggle:has(input:checked) .addon-check::after {
+  content: ''; width: 0.35rem; height: 0.6rem;
+  border: solid white; border-width: 0 2px 2px 0;
+  transform: rotate(45deg); margin-top: -2px;
+}
+.addon-label { flex: 1; font-size: 0.85rem; font-weight: 500; }
+.addon-toggle:has(input:checked) .addon-label { color: white; }
+.addon-price { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; color: var(--accent); }
+.addon-toggle:has(input:checked) .addon-price { color: var(--accent-light); }
+.request-card {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 2.5rem 1.5rem; background: linear-gradient(135deg, rgba(212,147,92,0.06), rgba(28,46,58,0.04));
+  border: 1px solid rgba(212,147,92,0.2); border-radius: var(--radius-lg);
+}
+.single-price { text-align: center; padding: 1.5rem; }
+.price-amount { font-family: var(--font-display); font-weight: 800; font-size: 3rem; color: var(--ink); }
+.price-label { display: block; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
+</style>
+
+<!-- ═══ PILLARS ═══ -->
+<section id="approach" class="section pillars">
+  <div class="container">
+    <div class="reveal fade-up" style="max-width:700px">
+      <p class="section-eyebrow">/ Three Pillars</p>
+      <h2 class="section-title">
+        The numbers behind
+        <span class="accent-line">the road to success.</span>
+      </h2>
+    </div>
+    <div class="pillar-grid reveal fade-up">
+      <div class="pillar-card" data-target="10" data-suffix="+">
+        <div class="pillar-header">
+          <span class="pillar-num">01</span>
+          <span class="pillar-label">Experience</span>
+        </div>
+        <div class="pillar-count">
+          <span class="pillar-value"><span class="countup">0</span>+</span>
+        </div>
+        <div class="pillar-sweep"></div>
+        <p class="pillar-text">years combined. A decade of hands-on instruction across all license codes. We've seen every mistake, every nervous first-timer, and every triumph behind the wheel.</p>
+      </div>
+      <div class="pillar-card" data-target="1500" data-suffix="+">
+        <div class="pillar-header">
+          <span class="pillar-num">02</span>
+          <span class="pillar-label">Students</span>
+        </div>
+        <div class="pillar-count">
+          <span class="pillar-value"><span class="countup">0</span>+</span>
+        </div>
+        <div class="pillar-sweep"></div>
+        <p class="pillar-text">students trained. Hundreds of confident drivers — from absolute beginners to seasoned pros upgrading their code. Each one left road-ready.</p>
+      </div>
+      <div class="pillar-card" data-target="3" data-suffix="">
+        <div class="pillar-header">
+          <span class="pillar-num">03</span>
+          <span class="pillar-label">Coverage</span>
+        </div>
+        <div class="pillar-count">
+          <span class="pillar-value"><span class="countup">0</span></span>
+        </div>
+        <div class="pillar-sweep"></div>
+        <p class="pillar-text">license codes. Code 8, Code 10 & Code 14. Light vehicles, delivery trucks, and heavy rigs — we train across the board.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.pillars {
+  padding: 5rem 0 6rem; position: relative; overflow: hidden;
+  background: var(--bg);
+}
+.pillars::before {
+  content: ''; position: absolute; top: -10rem; left: 50%; transform: translateX(-50%);
+  width: 50rem; height: 20rem; border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,147,92,0.1), transparent 70%);
+  pointer-events: none;
+}
+.pillar-grid { display: grid; grid-template-columns: 1fr; gap: 1px; margin-top: 4rem; background: var(--divider); border: 1px solid var(--divider); border-radius: var(--radius-xl); overflow: hidden; box-shadow: 0 4px 32px rgba(28,46,58,0.06); }
+@media (min-width: 768px) {
+  .pillar-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+.pillar-card { background: white; padding: 2.5rem 2rem; position: relative; overflow: hidden; }
+.pillar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.pillar-num { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--muted); }
+.pillar-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--primary-light); }
+.pillar-count { margin-bottom: 1rem; }
+.pillar-value { font-family: var(--font-display); font-weight: 800; font-size: clamp(4rem, 8vw, 6rem); line-height: 1; color: var(--ink); letter-spacing: -0.03em; }
+.pillar-sweep {
+  width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  background-size: 200% 100%;
+  animation: sweep 3s ease-in-out infinite;
+  margin-bottom: 1.25rem;
+  border-radius: 2px;
+}
+.pillar-text { color: var(--muted); font-size: 0.88rem; line-height: 1.7; max-width: 320px; }
+</style>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="process" class="section process">
+  <div class="container">
+    <div class="reveal fade-up">
+      <p class="section-eyebrow">/ How It Works</p>
+      <h2 class="section-title">
+        Three simple steps.
+        <span class="accent-line">Book. Learn. Pass.</span>
+      </h2>
+    </div>
+    <div class="process-stack">
+      <div class="process-card reveal fade-up">
+        <div class="process-card-inner">
+          <div class="process-info">
+            <span class="process-step-label">Step 01</span>
+            <h3 class="process-step-title">Book</h3>
+            <p class="process-tagline">Pick your package and date.</p>
+            <p class="process-text">Browse our services, choose your license class and hours, then pick a date that works for you. We'll confirm your slot within minutes.</p>
+          </div>
+          <div class="process-image">
+            <div class="process-img" style="background-image:url('./step1.png')"></div>
+          </div>
+        </div>
+      </div>
+      <div class="process-card reveal fade-up">
+        <div class="process-card-inner">
+          <div class="process-info">
+            <span class="process-step-label">Step 02</span>
+            <h3 class="process-step-title">Learn</h3>
+            <p class="process-tagline">Build confidence behind the wheel.</p>
+            <p class="process-text">Practical lessons with calm, certified instructors. We start with the basics and work up to road-ready — always at your pace, never rushed.</p>
+          </div>
+          <div class="process-image">
+            <div class="process-img" style="background-image:url('./step2.png')"></div>
+          </div>
+        </div>
+      </div>
+      <div class="process-card reveal fade-up">
+        <div class="process-card-inner">
+          <div class="process-info">
+            <span class="process-step-label">Step 03</span>
+            <h3 class="process-step-title">Pass</h3>
+            <p class="process-tagline">Walk out with your license.</p>
+            <p class="process-text">When you're test-ready, we handle the booking and make sure you're fully prepared. Our students pass with confidence — you will too.</p>
+          </div>
+          <div class="process-image">
+            <div class="process-img" style="background-image:url('./step3.png')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.process { padding: 5rem 0 6rem; position: relative; }
+.process-stack { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 3rem; }
+.process-card {
+  background: white; border: 1px solid var(--divider); border-radius: var(--radius-xl);
+  overflow: hidden; box-shadow: 0 4px 24px rgba(28,46,58,0.05);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.process-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(28,46,58,0.1); }
+.process-card-inner { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 768px) {
+  .process-card-inner { grid-template-columns: 1.1fr 1fr; }
+  .process-card:nth-child(even) .process-card-inner { direction: rtl; }
+  .process-card:nth-child(even) .process-card-inner > * { direction: ltr; }
+}
+.process-info { padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+.process-step-label {
+  font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 0.5rem;
+}
+.process-step-title {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.02em;
+  color: var(--ink); line-height: 1.05;
+}
+.process-tagline {
+  font-family: var(--font-serif); font-style: italic; font-weight: 500;
+  color: var(--accent); font-size: 1.2rem; margin: 0.35rem 0 1rem;
+}
+.process-text { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+.process-image { min-height: 240px; }
+.process-img { width: 100%; height: 100%; min-height: 240px; background-size: cover; background-position: center; }
+</style>
+
+<!-- ═══ TRUST + REVIEWS ═══ -->
+<section id="reviews" class="section trust-reviews">
+  <div class="container">
+    <div class="reveal fade-up" style="max-width:700px">
+      <p class="section-eyebrow">/ Why Trust Us</p>
+      <h2 class="section-title">
+        What our students say
+        <span class="accent-line">Real feedback from real drivers.</span>
+      </h2>
+    </div>
+
+    <div class="trust-badges reveal fade-up">
+      <div class="trust-card">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h4>Fully Certified</h4>
+        <p>All our instructors are qualified, registered, and bring years of on-road experience. Patient teaching is our standard.</p>
+      </div>
+      <div class="trust-card">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        <h4>Registered Academy</h4>
+        <p>Fully registered and compliant driving academy in the Eastern Cape. Trust and transparency in everything we do.</p>
+      </div>
+      <div class="trust-card">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <h4>Student-First Approach</h4>
+        <p>Hundreds of successful students across Gqeberha. Your confidence is our reputation — we earn it every lesson.</p>
+      </div>
+    </div>
+
+    <div class="reviews-carousel reveal fade-up">
+      <div class="reviews-track" id="reviewsTrack">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Passed my Code 8 first time thanks to these guys. Patient instructors who actually explain things properly instead of just shouting.</p>
+          <div class="review-author">
+            <span class="review-avatar">L</span>
+            <div><strong>Lungelo M.</strong><span>2 weeks ago</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">I was so nervous before my first lesson but the instructor put me at ease immediately. Highly recommend McMaster for anyone starting from zero.</p>
+          <div class="review-author">
+            <span class="review-avatar">A</span>
+            <div><strong>Amanda K.</strong><span>1 month ago</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Went from never having driven to passing my Code 10 in 3 weeks. The team knows their stuff and makes learning actually enjoyable.</p>
+          <div class="review-author">
+            <span class="review-avatar">S</span>
+            <div><strong>Sipho D.</strong><span>2 months ago</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Clean cars, punctual instructors, fair prices. Everything you want from a driving school in Gqeberha. Will send my sister here too.</p>
+          <div class="review-author">
+            <span class="review-avatar">C</span>
+            <div><strong>Chloe B.</strong><span>3 months ago</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Did my Code 14 with them. They know the heavy vehicle K53 inside out. Passed with zero faults on the first try.</p>
+          <div class="review-author">
+            <span class="review-avatar">T</span>
+            <div><strong>Thabo N.</strong><span>4 months ago</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Best decision I made. The learner's license crash course saved me so much time. Passed my theory on the first go.</p>
+          <div class="review-author">
+            <span class="review-avatar">N</span>
+            <div><strong>Nadia V.</strong><span>5 months ago</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Professional from the first call to the test day. They even sorted out my eNaTIS booking which was a nightmare doing myself.</p>
+          <div class="review-author">
+            <span class="review-avatar">B</span>
+            <div><strong>Buhle S.</strong><span>6 months ago</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Came for Code 8 refresher lessons after not driving for years. The instructor was super patient and had me road-ready in 5 lessons.</p>
+          <div class="review-author">
+            <span class="review-avatar">J</span>
+            <div><strong>Jason P.</strong><span>8 months ago</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Signed up for the 20-hour Code 8 package and it was worth every rand. By the end I was driving confidently on the freeway.</p>
+          <div class="review-author">
+            <span class="review-avatar">P</span>
+            <div><strong>Priya S.</strong><span>1 year ago</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="reviews-dots" id="reviewsDots"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+.trust-reviews { padding: 5rem 0 6rem; position: relative; background: var(--bg); }
+.trust-badges { display: grid; grid-template-columns: 1fr; gap: 1rem; margin: 2.5rem 0 3rem; }
+@media (min-width: 768px) {
+  .trust-badges { grid-template-columns: 1fr 1fr 1fr; }
+}
+.trust-card {
+  background: white; border: 1px solid var(--divider); border-radius: var(--radius-lg);
+  padding: 1.75rem; transition: all 0.3s;
+}
+.trust-card:hover { border-color: var(--accent); box-shadow: 0 8px 32px rgba(212,147,92,0.1); transform: translateY(-3px); }
+.trust-card h4 { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; margin: 0.75rem 0 0.5rem; color: var(--ink); }
+.trust-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+.reviews-carousel { position: relative; overflow: hidden; margin-top: 2rem; }
+.reviews-track {
+  display: flex; gap: 1.25rem; transition: transform 0.5s ease-out;
+  padding-bottom: 1rem;
+}
+.review-card {
+  width: calc(100vw - 5rem); flex-shrink: 0;
+  background: white; border: 1px solid var(--divider); border-radius: var(--radius-lg);
+  padding: 1.75rem; box-shadow: 0 2px 12px rgba(28,46,58,0.04);
+}
+@media (min-width: 640px) {
+  .review-card { width: 300px; }
+}
+@media (min-width: 1024px) {
+  .review-card { width: calc((100% - 2.5rem) / 3); }
+}
+.review-stars { color: var(--accent); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 0.75rem; }
+.review-text { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.25rem; }
+.review-author { display: flex; align-items: center; gap: 0.75rem; }
+.review-avatar {
+  width: 2.25rem; height: 2.25rem; border-radius: 50%;
+  background: rgba(212,147,92,0.12); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.review-author div { display: flex; flex-direction: column; }
+.review-author strong { font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; color: var(--ink); }
+.review-author span { font-size: 0.75rem; color: var(--muted); }
+.reviews-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; }
+.review-dot {
+  width: 0.5rem; height: 0.5rem; border-radius: 50%;
+  background: var(--divider); transition: all 0.3s; border: none; cursor: pointer;
+}
+.review-dot.active { background: var(--accent); width: 1.5rem; border-radius: 9999px; }
+</style>
+
+<!-- ═══ FOOTER / CONTACT ═══ -->
+<footer id="contact" class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="brand-icon" style="width:2.5rem;height:2.5rem">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          <span style="font-family:var(--font-display);font-weight:700;font-size:1.2rem">McMaster Driving Academy</span>
+        </div>
+        <p class="footer-desc">Empowering drivers in Gqeberha for over a decade. Helping thousands of students safely earn their Code 8, 10, and 14 licenses with K53 precision.</p>
+        <div class="footer-status">
+          <span class="status-dot"></span>
+          <span>Taking Bookings · Mon–Sat · 08:00–18:00</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <a href="#" data-servicelink="code8">Code 8</a>
+        <a href="#" data-servicelink="code10">Code 10</a>
+        <a href="#" data-servicelink="code14">Code 14</a>
+        <a href="#" data-servicelink="learners">Learner's License</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="tel:+27815385402">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          081 538 5402
+        </a>
+        <a href="mailto:reltonm@outlook.com">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          reltonm@outlook.com
+        </a>
+        <a href="https://wa.me/27815385402" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.102-1.025-1.847-2.289-2.063-2.676-.216-.387-.023-.597.163-.79.167-.173.371-.45.557-.675.186-.225.248-.386.372-.644.124-.258.062-.483-.031-.675-.094-.192-.67-1.615-.919-2.212-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.199 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 2C6.477 2 2 6.477 2 12c0 2.136.671 4.116 1.822 5.74L2.3 22l4.305-1.514A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+          Chat on WhatsApp
+        </a>
+        <a href="https://www.google.com/maps?q=3+9th+Avenue,+Summerstrand,+Gqeberha" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          3 9th Avenue, Summerstrand, Gqeberha
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 McMaster Driving Academy</span>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.footer {
+  background: var(--deep); color: white; position: relative; overflow: hidden;
+  border-radius: var(--radius-xxl) var(--radius-xxl) 0 0;
+  margin-top: 2rem; padding: 4rem 0 2rem;
+}
+.footer::before {
+  content: ''; position: absolute; top: -8rem; left: 50%; transform: translateX(-50%);
+  width: 40rem; height: 16rem; border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,147,92,0.15), transparent 70%);
+  pointer-events: none;
+}
+.footer-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; position: relative; z-index: 1; }
+@media (min-width: 768px) {
+  .footer-grid { grid-template-columns: 2fr 1fr 2fr; }
+}
+.footer-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+.footer-desc { color: rgba(255,255,255,0.5); font-size: 0.9rem; line-height: 1.7; max-width: 360px; }
+.footer-status { display: flex; align-items: center; gap: 0.6rem; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }
+.status-dot {
+  width: 0.5rem; height: 0.5rem; border-radius: 50%;
+  background: #34D399; position: relative; flex-shrink: 0;
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+.footer-col h5 { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 1.25rem; }
+.footer-col a {
+  display: flex; align-items: center; gap: 0.6rem;
+  color: rgba(255,255,255,0.55); font-size: 0.85rem; padding: 0.35rem 0;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--accent-light); }
+.footer-bottom {
+  display: flex; flex-direction: column; gap: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin-top: 3rem; padding-top: 1.5rem;
+  color: rgba(255,255,255,0.35); font-size: 0.78rem;
+  position: relative; z-index: 1;
+}
+@media (min-width: 600px) {
+  .footer-bottom { flex-direction: row; align-items: center; justify-content: space-between; }
+}
+.footer-legal { display: flex; gap: 1.5rem; }
+.footer-legal a { color: rgba(255,255,255,0.35); transition: color 0.2s; }
+.footer-legal a:hover { color: var(--accent-light); }
+</style>
+
+<!-- ═══ FLOATING CALL BUTTON ═══ -->
+<div class="floating-btn" id="floatingBtn">
+  <button class="floating-toggle" id="floatingToggle" aria-label="Contact options">
+    <svg class="float-icon-call" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    <svg class="float-icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:none"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  </button>
+  <div class="float-menu" id="floatMenu">
+    <a href="tel:+27815385402">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      081 538 5402
+    </a>
+  </div>
+</div>
+
+<style>
+.floating-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+.floating-toggle {
+  width: 3.5rem; height: 3.5rem; border-radius: 50%;
+  background: var(--accent); color: white;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 32px rgba(212,147,92,0.4);
+  transition: transform 0.3s;
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+.floating-toggle:hover { transform: scale(1.08); }
+.float-menu {
+  display: none; flex-direction: column; gap: 0.35rem;
+  background: var(--deep); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius); padding: 0.5rem;
+  min-width: 180px;
+}
+.float-menu.open { display: flex; }
+.float-menu a {
+  display: flex; align-items: center; gap: 0.6rem;
+  color: rgba(255,255,255,0.75); font-size: 0.85rem;
+  padding: 0.5rem 0.75rem; border-radius: 0.5rem;
+  transition: background 0.2s;
+}
+.float-menu a:hover { background: rgba(255,255,255,0.05); color: var(--accent-light); }
+</style>
+
+<!-- ═══ BOOKING MODAL ═══ -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-content animate-fade-in-up">
+    <div class="modal-header">
+      <h3>Confirm Your Booking</h3>
+      <button id="modalClose" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+
+    <div id="modalBody">
+      <div class="modal-field">
+        <label>Service</label>
+        <div class="modal-value" id="modalService">—</div>
+      </div>
+      <div class="modal-field">
+        <label>Package</label>
+        <div class="modal-value" id="modalPackage">—</div>
+      </div>
+
+      <div class="modal-field">
+        <label>Your Name *</label>
+        <input type="text" id="modalName" placeholder="Your name" class="modal-input" required />
+      </div>
+      <div class="modal-row">
+        <div class="modal-field">
+          <label>Email *</label>
+          <input type="email" id="modalEmail" placeholder="your@email.com" class="modal-input" required />
+        </div>
+        <div class="modal-field">
+          <label>Phone *</label>
+          <input type="tel" id="modalPhone" placeholder="081 538 5402" class="modal-input" required />
+        </div>
+      </div>
+
+      <div class="modal-field">
+        <label>Select your date</label>
+        <div id="modalCalendar"></div>
+      </div>
+
+      <div class="modal-field">
+        <label>Message</label>
+        <textarea id="modalMessage" rows="3" class="modal-input" placeholder="Any questions or special requests?" style="resize:none"></textarea>
+      </div>
+
+      <button class="magnetic-btn primary" id="modalSubmit" style="width:100%;justify-content:center">
+        Send Booking Request <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+      <p style="font-size:0.65rem;color:var(--muted);text-align:center;margin-top:0.75rem">We'll respond within 24 hours. Your info stays private.</p>
+    </div>
+
+    <div id="modalSent" style="display:none;text-align:center;padding:2rem">
+      <div style="width:4rem;height:4rem;border-radius:50%;background:rgba(212,147,92,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <h4 style="font-family:var(--font-display);font-weight:700;font-size:1.5rem;margin-bottom:0.5rem">Booking received!</h4>
+      <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:1.5rem" id="modalSentText">We've received your request. We'll confirm via email or WhatsApp within 24 hours.</p>
+      <button class="magnetic-btn primary" id="modalSentClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  display: none; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(28,46,58,0.6); backdrop-filter: blur(6px); }
+.modal-content {
+  position: relative; background: white; border-radius: var(--radius-xl);
+  max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto;
+  padding: 1.75rem; box-shadow: 0 24px 80px rgba(28,46,58,0.3);
+}
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.modal-header h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; color: var(--ink); }
+.modal-header button { color: var(--muted); padding: 0.25rem; border-radius: 50%; transition: background 0.2s; }
+.modal-header button:hover { background: var(--bg); }
+.modal-field { margin-bottom: 1rem; }
+.modal-field label {
+  font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--primary-light); margin-bottom: 0.35rem; display: block;
+}
+.modal-value {
+  padding: 0.7rem 1rem; background: var(--bg); border-radius: var(--radius);
+  font-size: 0.88rem; color: var(--muted); border: 1px solid var(--divider);
+}
+.modal-input {
+  width: 100%; padding: 0.7rem 1rem;
+  border: 1px solid var(--divider); border-radius: var(--radius);
+  font-family: var(--font-body); font-size: 0.88rem; color: var(--ink);
+  background: var(--bg); transition: border-color 0.2s;
+}
+.modal-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(212,147,92,0.12); }
+.modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+.calendar-widget {
+  background: white; border: 1px solid var(--divider); border-radius: var(--radius);
+  padding: 0.75rem; user-select: none;
+}
+.calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+.calendar-header button { padding: 0.35rem; border-radius: 0.5rem; color: var(--muted); transition: background 0.2s; }
+.calendar-header button:hover { background: var(--bg); }
+.calendar-header span { font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; color: var(--ink); }
+.calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-bottom: 4px; }
+.calendar-day-header { text-align: center; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 0.35rem 0; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.calendar-cell {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 500; border-radius: 0.6rem;
+  transition: all 0.15s; cursor: pointer; color: var(--ink);
+}
+.calendar-cell:hover { background: rgba(212,147,92,0.1); color: var(--accent); }
+.calendar-cell.selected { background: var(--accent); color: white; box-shadow: 0 4px 12px var(--accent-glow); }
+.calendar-cell.blocked { color: #fca5a5; text-decoration: line-through; cursor: not-allowed; }
+.calendar-cell.past { color: var(--divider); cursor: not-allowed; }
+.calendar-cell.today { border: 1.5px solid var(--accent); }
+.calendar-legend { display: flex; gap: 1rem; margin-top: 0.5rem; font-size: 0.6rem; color: var(--muted); align-items: center; }
+.calendar-legend span { display: flex; align-items: center; gap: 0.3rem; }
+.calendar-legend .dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; display: inline-block; }
+</style>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ─── NAVBAR ───
+const navbar = document.getElementById('navbar');
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  navbar.classList.toggle('scrolled', y > 80);
+  navbar.classList.toggle('transparent', y <= 80);
+  lastScroll = y;
+}, { passive: true });
+navbar.classList.add('transparent');
+
+// ─── MOBILE MENU ───
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobileOverlay').classList.add('open');
+});
+document.getElementById('closeOverlay').addEventListener('click', () => {
+  document.getElementById('mobileOverlay').classList.remove('open');
+});
+document.querySelectorAll('.mobile-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('mobileOverlay').classList.remove('open');
+  });
+});
+
+// ─── SERVICE TABS ───
+const tabs = document.querySelectorAll('.service-tab');
+const panels = {
+  code8: document.getElementById('panel-code8'),
+  code10: document.getElementById('panel-code10'),
+  code14: document.getElementById('panel-code14'),
+  learners: document.getElementById('panel-learners'),
+};
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    Object.values(panels).forEach(p => p.classList.remove('active'));
+    const id = tab.dataset.service;
+    if (panels[id]) panels[id].classList.add('active');
+  });
+});
+
+// ─── GSAP REVEALS ───
+document.querySelectorAll('.reveal.fade-up').forEach(el => {
+  if (el.closest('.process-card')) return;
+  gsap.from(el, {
+    scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+    y: 40, opacity: 0, duration: 0.9, ease: 'power3.out',
+  });
+});
+
+// ─── HERO STAGGER ───
+const heroReveals = document.querySelectorAll('.hero-reveal');
+gsap.from(heroReveals, {
+  y: 40, opacity: 0, duration: 1, ease: 'power3.out',
+  stagger: 0.18, delay: 0.3,
+});
+
+// ─── COUNT-UP ───
+const countEls = document.querySelectorAll('.countup');
+countEls.forEach(el => {
+  const card = el.closest('.pillar-card');
+  const target = parseInt(card.dataset.target);
+  const obs = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    obs.disconnect();
+    const dur = 1800 + Math.random() * 400;
+    const start = performance.now();
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(target * eased);
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, { threshold: 0.4 });
+  obs.observe(card);
+});
+
+// ─── PROCESS CARDS REVEAL ───
+document.querySelectorAll('.process-card').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: { trigger: card, start: 'top 85%', once: true },
+    y: 40, opacity: 0, duration: 0.8, delay: i * 0.12, ease: 'power3.out',
+  });
+});
+
+// ─── REVIEWS CAROUSEL ───
+const track = document.getElementById('reviewsTrack');
+const dotsContainer = document.getElementById('reviewsDots');
+const cards = track.querySelectorAll('.review-card');
+const trackParent = track.parentElement;
+let currentSlide = 0;
+let autoPlay = true;
+
+function getCardWidth() {
+  return cards[0]?.offsetWidth + 20 || 320;
+}
+function getVisible() {
+  return Math.max(1, Math.floor(trackParent.offsetWidth / getCardWidth()));
+}
+function getTotalSlides() {
+  return Math.max(1, cards.length - getVisible() + 1);
+}
+
+cards.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'review-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => { goTo(i); autoPlay = false; setTimeout(() => autoPlay = true, 5000); });
+  dotsContainer.appendChild(dot);
+});
+
+function goTo(idx) {
+  const total = getTotalSlides();
+  currentSlide = Math.max(0, Math.min(idx, total - 1));
+  track.style.transform = `translateX(-${currentSlide * getCardWidth()}px)`;
+  document.querySelectorAll('.review-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentSlide);
+  });
+}
+
+let carouselInterval = setInterval(() => {
+  if (autoPlay) goTo((currentSlide + 1) % getTotalSlides());
+}, 3500);
+
+window.addEventListener('resize', () => {
+  goTo(currentSlide);
+});
+
+trackParent.addEventListener('mouseenter', () => autoPlay = false);
+trackParent.addEventListener('mouseleave', () => autoPlay = true);
+
+// ─── FLOATING BUTTON ───
+const floatToggle = document.getElementById('floatingToggle');
+const floatMenu = document.getElementById('floatMenu');
+floatToggle.addEventListener('click', () => {
+  floatMenu.classList.toggle('open');
+  floatToggle.querySelector('.float-icon-call').style.display = floatMenu.classList.contains('open') ? 'none' : '';
+  floatToggle.querySelector('.float-icon-close').style.display = floatMenu.classList.contains('open') ? '' : 'none';
+});
+document.addEventListener('click', (e) => {
+  if (!document.getElementById('floatingBtn').contains(e.target)) {
+    floatMenu.classList.remove('open');
+    floatToggle.querySelector('.float-icon-call').style.display = '';
+    floatToggle.querySelector('.float-icon-close').style.display = 'none';
+  }
+});
+
+// ─── BOOKING MODAL ───
+const modal = document.getElementById('bookingModal');
+const backdrop = document.getElementById('modalBackdrop');
+const closeModalBtn = document.getElementById('modalClose');
+const sentCloseBtn = document.getElementById('modalSentClose');
+const modalBody = document.getElementById('modalBody');
+const modalSent = document.getElementById('modalSent');
+const modalService = document.getElementById('modalService');
+const modalPackage = document.getElementById('modalPackage');
+const modalName = document.getElementById('modalName');
+const modalEmail = document.getElementById('modalEmail');
+const modalPhone = document.getElementById('modalPhone');
+const modalMessage = document.getElementById('modalMessage');
+const modalSubmit = document.getElementById('modalSubmit');
+const modalCalendar = document.getElementById('modalCalendar');
+const sentText = document.getElementById('modalSentText');
+
+let selectedPkg = null;
+
+function buildCalendar() {
+  const today = new Date();
+  let viewMonth = today.getMonth();
+  let viewYear = today.getFullYear();
+  let selectedDate = '';
+  const blockedDates = [];
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function render() {
+    const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+    const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+    let html = '<div class="calendar-widget">';
+    html += '<div class="calendar-header">';
+    html += `<button class="cal-nav" data-dir="-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>`;
+    html += `<span>${monthNames[viewMonth]} ${viewYear}</span>`;
+    html += `<button class="cal-nav" data-dir="1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>`;
+    html += '</div>';
+    html += '<div class="calendar-days">';
+    ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => {
+      html += `<div class="calendar-day-header">${d}</div>`;
+    });
+    html += '</div><div class="calendar-grid">';
+    for (let i = 0; i < firstDay; i++) {
+      html += '<div></div>';
+    }
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateObj = new Date(viewYear, viewMonth, day);
+      const dateStr = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const isSun = dateObj.getDay() === 0;
+      const isPast = dateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const isBlocked = blockedDates.includes(dateStr) || isSun;
+      const isSel = selectedDate === dateStr;
+      const isToday = dateObj.toDateString() === today.toDateString();
+      let cls = 'calendar-cell';
+      if (isSel) cls += ' selected';
+      if (isBlocked || isPast) cls += isBlocked ? ' blocked' : ' past';
+      if (isToday && !isSel) cls += ' today';
+      const clickable = !isBlocked && !isPast;
+      html += `<div class="${cls}" data-date="${dateStr}" ${clickable ? '' : 'style="pointer-events:none"'}>${day}</div>`;
+    }
+    html += '</div>';
+    html += '<div class="calendar-legend">';
+    html += '<span><span class="dot" style="background:var(--accent)"></span> Selected</span>';
+    html += '<span><span class="dot" style="background:#fca5a5"></span> Booked / Sundays</span>';
+    html += '</div></div>';
+    modalCalendar.innerHTML = html;
+
+    modalCalendar.querySelectorAll('.calendar-cell:not(.blocked):not(.past)').forEach(cell => {
+      cell.addEventListener('click', () => {
+        selectedDate = cell.dataset.date;
+        render();
+      });
+    });
+    modalCalendar.querySelectorAll('.cal-nav').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dir = parseInt(btn.dataset.dir);
+        viewMonth += dir;
+        if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+        if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+        render();
+      });
+    });
+  }
+  render();
+  return () => selectedDate;
+}
+
+let getSelectedDate = buildCalendar();
+
+document.querySelectorAll('.book-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const service = btn.dataset.service;
+    const panel = btn.closest('.service-panel');
+    const pkgCard = panel?.querySelector('.pkg-card.featured');
+    const addonCheck = panel?.querySelector('.addon-toggle input');
+    const addonLabel = panel?.querySelector('.addon-label');
+    const addonPrice = panel?.querySelector('.addon-price');
+
+    modalService.textContent = service;
+    if (pkgCard) {
+      try {
+        const data = JSON.parse(pkgCard.dataset.pkg);
+        let pkgStr = `${data.label} (${data.price})`;
+        if (addonCheck?.checked && addonLabel && addonPrice) {
+          pkgStr += ` + ${addonLabel.textContent.trim()} (${addonPrice.textContent.trim()})`;
+        }
+        modalPackage.textContent = pkgStr;
+        selectedPkg = data;
+      } catch { modalPackage.textContent = '—'; }
+    } else {
+      const priceEl = btn.closest('.single-price')?.querySelector('.price-amount');
+      modalPackage.textContent = priceEl ? priceEl.textContent.trim() : 'Available on Request';
+    }
+    modalBody.style.display = '';
+    modalSent.style.display = 'none';
+    modalName.value = ''; modalEmail.value = ''; modalPhone.value = ''; modalMessage.value = '';
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+backdrop.addEventListener('click', closeModal);
+closeModalBtn.addEventListener('click', closeModal);
+sentCloseBtn.addEventListener('click', closeModal);
+
+modalSubmit.addEventListener('click', async () => {
+  const name = modalName.value.trim();
+  const email = modalEmail.value.trim();
+  const phone = modalPhone.value.trim();
+  const date = getSelectedDate();
+  if (!name || !email || !phone) { alert('Please fill in your name, email, and phone.'); return; }
+  if (!date) { alert('Please select a date.'); return; }
+  modalSubmit.disabled = true;
+  modalSubmit.textContent = 'Sending...';
+
+  const body = {
+    name, email, phone,
+    service: modalService.textContent,
+    package: modalPackage.textContent,
+    date,
+    message: modalMessage.value.trim(),
+  };
+
+  try {
+    await fetch('https://16-28-20-77.sslip.io/webhook/booking', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    sentText.innerHTML = `We've received your request for <strong>${modalService.textContent}</strong>${date ? ` for <strong>${new Date(date + 'T00:00:00').toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong>` : ''}. We'll confirm via email or WhatsApp within 24 hours.`;
+    modalBody.style.display = 'none';
+    modalSent.style.display = '';
+  } catch {
+    alert('Something went wrong. Please WhatsApp us on 081 538 5402.');
+  }
+  modalSubmit.disabled = false;
+  modalSubmit.textContent = 'Send Booking Request';
+});
+
+// ─── REFRESH SCROLLTRIGGER ───
+setTimeout(() => ScrollTrigger.refresh(), 300);
+setTimeout(() => ScrollTrigger.refresh(), 1200);
+
+// ─── SERVICE TAB PACKAGE SELECTION ───
+document.querySelectorAll('.pkg-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const parent = card.closest('.pkg-grid');
+    parent.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('featured'));
+    card.classList.add('featured');
+    const panel = card.closest('.service-panel');
+    if (panel) {
+      const addonRow = panel.querySelector('.addon-row');
+      if (addonRow) addonRow.style.display = 'block';
+    }
+  });
+});
+document.querySelectorAll('.service-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.addon-row').forEach(r => r.style.display = 'none');
+    document.querySelectorAll('.addon-toggle input').forEach(cb => cb.checked = false);
+  });
+});
+
+// ─── FOOTER SERVICE LINKS ───
+document.querySelectorAll('[data-servicelink]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const id = link.dataset.servicelink;
+    const tab = document.querySelector(`.service-tab[data-service="${id}"]`);
+    if (tab) tab.click();
+    document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

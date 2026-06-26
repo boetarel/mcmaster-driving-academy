@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SA Driving School AI Agency — Full Blueprint</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+    :root {
+      --green: #00C896;
+      --green-light: #00FFB2;
+      --navy: #0A1628;
+      --navy-mid: #0F1F3D;
+      --blue-accent: #1A3A6B;
+      --text: #1A1A2E;
+      --muted: #5A6580;
+      --border: #D0D8E8;
+      --bg: #F5F7FC;
+      --white: #FFFFFF;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    /* ─── PRINT ─── */
+    @media print {
+      body { background: white; font-size: 12px; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      .cover { height: auto; min-height: 280px; }
+      section { break-inside: avoid; }
+      .card { break-inside: avoid; }
+    }
+
+    /* ─── COVER ─── */
+    .cover {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--blue-accent) 100%);
+      color: white;
+      padding: 70px 80px;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,200,150,0.18) 0%, transparent 70%);
+    }
+    .cover::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,200,150,0.10) 0%, transparent 70%);
+    }
+    .cover-tag {
+      display: inline-block;
+      background: rgba(0,200,150,0.2);
+      border: 1px solid var(--green);
+      color: var(--green-light);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    .cover h1 {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      max-width: 680px;
+    }
+    .cover h1 span { color: var(--green-light); }
+    .cover-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.72);
+      max-width: 560px;
+      margin-bottom: 36px;
+      font-weight: 400;
+    }
+    .cover-meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .cover-meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .cover-meta-label { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+    .cover-meta-value { font-size: 15px; font-weight: 700; color: white; }
+
+    /* ─── LAYOUT ─── */
+    .container { max-width: 920px; margin: 0 auto; padding: 40px 40px 80px; }
+
+    /* ─── SECTION HEADERS ─── */
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    h2 {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .section-intro {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 680px;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+    section { margin-bottom: 56px; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, var(--green) 0%, transparent 100%);
+      margin: 8px 0 32px;
+      border-radius: 2px;
+    }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .card.accent {
+      border-left: 4px solid var(--green);
+      background: linear-gradient(135deg, rgba(0,200,150,0.04), white);
+    }
+    .card.warning {
+      border-left: 4px solid var(--warning);
+      background: linear-gradient(135deg, rgba(245,158,11,0.04), white);
+    }
+    .card.dark {
+      background: var(--navy);
+      color: white;
+      border: none;
+    }
+    .card.dark h3, .card.dark h4 { color: white; }
+    .card.dark p, .card.dark li { color: rgba(255,255,255,0.75); }
+
+    /* ─── TABLES ─── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+    thead tr { background: var(--navy); color: white; }
+    thead th { padding: 12px 16px; font-weight: 600; font-size: 12px; text-align: left; letter-spacing: 0.5px; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: #F9FAFB; }
+    tbody td { padding: 11px 16px; }
+    .highlight-row td { background: rgba(0,200,150,0.08); font-weight: 600; }
+    .td-green { color: var(--green); font-weight: 700; }
+    .td-muted { color: var(--muted); font-size: 12px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-green { background: rgba(0,200,150,0.15); color: #00A07A; }
+    .badge-blue { background: rgba(26,58,107,0.12); color: var(--blue-accent); }
+    .badge-orange { background: rgba(245,158,11,0.15); color: #B45309; }
+    .badge-red { background: rgba(239,68,68,0.12); color: #B91C1C; }
+
+    /* ─── CHECKLIST ─── */
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .checklist li::before {
+      content: '☐';
+      font-size: 16px;
+      color: var(--green);
+      margin-top: -1px;
+      flex-shrink: 0;
+    }
+    .checklist.done li::before { content: '✓'; color: var(--success); }
+
+    /* ─── FLOW DIAGRAM ─── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .flow-step:last-child { border-bottom: none; }
+    .flow-num {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .flow-step.active .flow-num { background: var(--green); color: var(--navy); }
+    .flow-content h4 { margin-bottom: 3px; }
+    .flow-content p { font-size: 12.5px; color: var(--muted); }
+
+    /* ─── STAT BOXES ─── */
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .stat-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-num span { color: var(--green); }
+    .stat-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* ─── CODE BLOCK ─── */
+    .code-block {
+      background: var(--navy);
+      border-radius: 10px;
+      padding: 20px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: #A8D8B9;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+    .code-block .comment { color: #4A6880; }
+    .code-block .keyword { color: #79C0FF; }
+    .code-block .string { color: #A5D6FF; }
+    .code-block .value { color: #56D364; }
+
+    /* ─── SCRIPTS ─── */
+    .script-box {
+      background: #FAFBFE;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      font-size: 13.5px;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+    .script-label {
+      font-style: normal;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    /* ─── PRICING ─── */
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .pricing-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+    .pricing-card.featured {
+      background: var(--navy);
+      border-color: var(--green);
+      color: white;
+      position: relative;
+      transform: translateY(-6px);
+    }
+    .pricing-card.featured h3, .pricing-card.featured .pricing-desc { color: rgba(255,255,255,0.8); }
+    .pricing-card.featured li { color: rgba(255,255,255,0.75); }
+    .pricing-badge {
+      background: var(--green);
+      color: var(--navy);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+    .pricing-amount {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .pricing-card.featured .pricing-amount { color: var(--green-light); }
+    .pricing-currency { font-size: 18px; font-weight: 600; }
+    .pricing-period { font-size: 12px; color: var(--muted); margin: 4px 0 16px; }
+    .pricing-card.featured .pricing-period { color: rgba(255,255,255,0.5); }
+    .pricing-desc { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .pricing-features { list-style: none; text-align: left; margin-bottom: 20px; }
+    .pricing-features li {
+      font-size: 12.5px;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .pricing-card.featured .pricing-features li { border-color: rgba(255,255,255,0.1); }
+    .pricing-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+    /* ─── RISK TABLE ─── */
+    .risk-high { color: #B91C1C; font-weight: 600; }
+    .risk-med { color: #B45309; font-weight: 600; }
+    .risk-low { color: #065F46; font-weight: 600; }
+
+    /* ─── PRINT BUTTON ─── */
+    .print-bar {
+      background: var(--navy);
+      color: white;
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .print-bar span { font-size: 13px; color: rgba(255,255,255,0.6); }
+    .btn-print {
+      background: var(--green);
+      color: var(--navy);
+      border: none;
+      padding: 9px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-print:hover { background: var(--green-light); }
+
+    p { margin-bottom: 10px; }
+    ul { padding-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; }
+    strong { font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<!-- PRINT BAR (hidden on print) -->
+<div class="print-bar no-print">
+  <span>SA Driving School AI Agency — Full Blueprint Document</span>
+  <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+</div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">Confidential — Internal Blueprint</div>
+  <h1>The <span>SA Driving School</span><br>AI Agency Blueprint</h1>
+  <p class="cover-sub">A complete 1-person AI consulting business targeting South African driving schools — using WhatsApp automation, AI voice agents, and smart booking systems to capture every lead while the owner is mid-lesson.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Model</span>
+      <span class="cover-meta-value">Gatari AI Agency Framework</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Target Market</span>
+      <span class="cover-meta-value">SA Driving Schools</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Revenue Target</span>
+      <span class="cover-meta-value">R20,000 – R50,000 / month</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Running Cost</span>
+      <span class="cover-meta-value">R150 – R300 / month</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Prepared</span>
+      <span class="cover-meta-value">June 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ─── SECTION 1: THE OPPORTUNITY ─── -->
+  <section>
+    <div class="section-label">Section 01</div>
+    <h2>The Opportunity</h2>
+    <div class="divider"></div>
+    <p class="section-intro">Driving schools in South Africa are high-friction, cash-heavy businesses run almost entirely by one person who is physically unavailable for most of the working day — because they're in a car. Every hour they're teaching is an hour they're not answering calls, replying to WhatsApp, or confirming bookings. That gap is the business.</p>
+
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-num"><span>3–5</span></div>
+        <div class="stat-label">Missed inquiries per day per school</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num"><span>5</span><br><span style="font-size:14px">min</span></div>
+        <div class="stat-label">Window before a lead calls the next school</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">R<span>1,500</span></div>
+        <div class="stat-label">Average package value per student</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num"><span>0</span></div>
+        <div class="stat-label">Direct competitors doing this in SA</div>
+      </div>
+    </div>
+
+    <div class="card-grid" style="margin-top:16px">
+      <div class="card accent">
+        <h4>🔴 The Missed Call Drain</h4>
+        <p style="font-size:13px;color:#5A6580;margin-top:8px">Owner is mid-lesson in a VW Polo. Prospective student calls to ask about a Code 8 package — no answer. Calls the next school on Google. Lead is dead.</p>
+      </div>
+      <div class="card accent">
+        <h4>🔴 The WhatsApp Black Hole</h4>
+        <p style="font-size:13px;color:#5A6580;margin-top:8px">Facebook/Instagram ads drive DMs. Owner replies 6 hours later. Research shows: if you don't respond within 5 minutes, conversion drops by over 80%.</p>
+      </div>
+      <div class="card accent">
+        <h4>🔴 The Booking Admin Nightmare</h4>
+        <p style="font-size:13px;color:#5A6580;margin-top:8px">Manual tracking of who paid for which package, who owes for test-day car rental, matching student availability with instructor schedules — all in a WhatsApp group.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 2: THE BUSINESS MODEL ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 02</div>
+    <h2>The Business Model</h2>
+    <div class="divider"></div>
+    <p class="section-intro">Modelled on Serge Gatari's 1-person AI Agency framework. You are not selling AI software — you are selling <strong>outcomes</strong>. "10–15 more student bookings per month on autopilot." You fulfil using AI agents at 90% automation, keeping margins above 85%.</p>
+
+    <div class="card dark" style="margin-bottom:16px">
+      <h3 style="color:var(--green-light);margin-bottom:12px">The Core Equation</h3>
+      <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:center;text-align:center">
+        <div>
+          <div style="font-size:22px;font-weight:900;color:white">R15,000</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase">Setup Fee</div>
+        </div>
+        <div style="font-size:22px;color:rgba(255,255,255,0.3)">+</div>
+        <div>
+          <div style="font-size:22px;font-weight:900;color:white">R2,500/mo</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase">Monthly Retainer</div>
+        </div>
+        <div style="font-size:22px;color:rgba(255,255,255,0.3)">−</div>
+        <div>
+          <div style="font-size:22px;font-weight:900;color:#00FF87">R300/mo</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase">Running Cost</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1)">
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:4px">Gross Margin (Month 1)</div>
+        <div style="font-size:36px;font-weight:900;color:#00FF87">~88%</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Clients</th>
+          <th>Monthly Revenue</th>
+          <th>Monthly Cost</th>
+          <th>Monthly Profit</th>
+          <th>Margin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1 client</td><td>R2,500</td><td>R300</td><td class="td-green">R2,200</td><td>88%</td></tr>
+        <tr><td>3 clients</td><td>R7,500</td><td>R600</td><td class="td-green">R6,900</td><td>92%</td></tr>
+        <tr><td>5 clients</td><td>R12,500</td><td>R900</td><td class="td-green">R11,600</td><td>93%</td></tr>
+        <tr><td>10 clients</td><td>R25,000</td><td>R1,500</td><td class="td-green">R23,500</td><td>94%</td></tr>
+        <tr class="highlight-row"><td><strong>Setup fees (first month, 3 clients)</strong></td><td colspan="2"><strong>R45,000 once-off</strong></td><td class="td-green" colspan="2"><strong>+ monthly retainer</strong></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── SECTION 3: WHAT YOU'RE BUILDING ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 03</div>
+    <h2>What You're Building</h2>
+    <div class="divider"></div>
+    <p class="section-intro">Three interconnected systems that together eliminate the three operational leaks. Once installed, the driving school captures and converts leads automatically — 24/7, including nights and weekends when most students actually search.</p>
+
+    <h3 style="margin-bottom:12px">System 1 — WhatsApp AI Intake Agent</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num active">1</div>
+        <div class="flow-content">
+          <h4>Student sends WhatsApp message</h4>
+          <p>"Hi, I want to book driving lessons" — can be at 10PM on a Sunday</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num active">2</div>
+        <div class="flow-content">
+          <h4>AI replies within 5 seconds</h4>
+          <p>"Hey! Are you looking for a Code 8 or Code 10 licence? And do you prefer automatic or manual gearbox?"</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num active">3</div>
+        <div class="flow-content">
+          <h4>AI qualifies and checks availability</h4>
+          <p>Asks day preference, checks live instructor calendar via Cal.com API, offers 2 available slots</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num active">4</div>
+        <div class="flow-content">
+          <h4>Student picks a slot — payment link sent instantly</h4>
+          <p>"Perfect! I've reserved Thursday 9AM for you. Here's the deposit link via PayFast/Yoco — slot is held for 15 minutes." [LINK]</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num active">5</div>
+        <div class="flow-content">
+          <h4>Payment confirmed → booking locked + owner notified</h4>
+          <p>Cal.com event created. Owner gets a WhatsApp summary. 24h before lesson: automated reminder sent to student.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;margin-bottom:12px">System 2 — AI Voice Agent (Phone Call Handler)</h3>
+    <div class="card">
+      <p style="font-size:13px;margin-bottom:12px">The driving school doesn't change their phone number. They set a simple <strong>call forward</strong> on their existing number to a Twilio SA number. When a student calls, the AI voice agent (Vapi.ai) picks up instantly — always, even mid-lesson.</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-content">
+            <h4>Call comes in → Vapi AI answers in <3 seconds</h4>
+            <p>"Good day! You've reached [School Name]. I'm the automated booking assistant — are you calling to book lessons, check pricing, or enquire about a licence test?"</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-content">
+            <h4>AI qualifies caller and checks availability via n8n</h4>
+            <p>Vapi calls n8n webhook → n8n checks Cal.com → n8n returns available slots back to Vapi in real-time</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-content">
+            <h4>Booking confirmed over the phone</h4>
+            <p>"Sorted! I'll send you a WhatsApp message with your booking details and the deposit link right now." Call ends. n8n triggers WhatsApp message automatically.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-content">
+            <h4>Escalation handled gracefully</h4>
+            <p>If caller asks about a failed test, complaint, or refund: "Let me get the instructor to call you back. I'll send you a message with a callback time." Owner is notified via WhatsApp.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;margin-bottom:12px">System 3 — Landing Page + Demo Asset</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Agency Landing Page</h4>
+        <p style="font-size:13px;color:var(--muted);margin-top:6px">A premium dark-themed webpage (deployed to your AWS VPS) that presents the offer to driving school owners. Includes problem/solution, pricing, demo video, FAQ, and a WhatsApp CTA button.</p>
+      </div>
+      <div class="card">
+        <h4>90-Second Demo Loom</h4>
+        <p style="font-size:13px;color:var(--muted);margin-top:6px">A screen recording of the full WhatsApp flow running live. This is sent to prospects as the primary outreach asset. Replaces a sales deck entirely — they see it working in real time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 4: TECHNICAL STACK ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 04</div>
+    <h2>Technical Stack &amp; Your Existing Skills</h2>
+    <div class="divider"></div>
+    <p class="section-intro">Every tool required already exists in your Automation Skills folder. You are not learning new technology — you are assembling tools you already have documentation for.</p>
+
+    <table style="margin-bottom:24px">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Tool</th>
+          <th>Your Skill File</th>
+          <th>Cost</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Automation Engine</strong></td>
+          <td>n8n (self-hosted)</td>
+          <td><span class="badge badge-green">n8n/SKILL.md</span></td>
+          <td class="td-green">FREE</td>
+          <td>Entire backend brain — all logic lives here</td>
+        </tr>
+        <tr>
+          <td><strong>WhatsApp Channel</strong></td>
+          <td>Meta Cloud API</td>
+          <td><span class="badge badge-blue">via n8n node</span></td>
+          <td class="td-green">FREE (&lt;1000 conv)</td>
+          <td>Receives &amp; sends WhatsApp messages</td>
+        </tr>
+        <tr>
+          <td><strong>AI Brain (WhatsApp)</strong></td>
+          <td>Claude API</td>
+          <td><span class="badge badge-green">customer-support/SKILL.md</span></td>
+          <td>~R30–R80/mo</td>
+          <td>Conversation logic, tone, escalation detection</td>
+        </tr>
+        <tr>
+          <td><strong>Calendar / Booking</strong></td>
+          <td>Cal.com</td>
+          <td><span class="badge badge-blue">HTTP requests via n8n</span></td>
+          <td class="td-green">FREE</td>
+          <td>Availability check, slot locking, event creation</td>
+        </tr>
+        <tr>
+          <td><strong>Payment Links</strong></td>
+          <td>PayFast / Yoco</td>
+          <td><span class="badge badge-blue">Webhook via n8n</span></td>
+          <td class="td-green">FREE + txn %</td>
+          <td>Generates payment links, confirms deposits</td>
+        </tr>
+        <tr>
+          <td><strong>Voice Agent</strong></td>
+          <td>Vapi.ai</td>
+          <td><span class="badge badge-blue">n8n webhooks</span></td>
+          <td>~$0.05/min</td>
+          <td>Handles inbound phone calls, books via tools</td>
+        </tr>
+        <tr>
+          <td><strong>Phone Number (SA)</strong></td>
+          <td>Twilio</td>
+          <td><span class="badge badge-blue">via Vapi</span></td>
+          <td>$1.50/mo + $0.01/min</td>
+          <td>SA local number that receives forwarded calls</td>
+        </tr>
+        <tr>
+          <td><strong>Background Jobs</strong></td>
+          <td>Trigger.dev</td>
+          <td><span class="badge badge-green">trigger-dev/SKILL.md</span></td>
+          <td class="td-green">FREE tier</td>
+          <td>Slot release timer, 24h reminders, weekly reports</td>
+        </tr>
+        <tr>
+          <td><strong>Infrastructure</strong></td>
+          <td>AWS EC2 (yours)</td>
+          <td><span class="badge badge-green">scalability/SKILL.md</span></td>
+          <td class="td-green">Already paid</td>
+          <td>Hosts n8n + all services via Docker Compose</td>
+        </tr>
+        <tr>
+          <td><strong>Outreach</strong></td>
+          <td>Instantly.ai</td>
+          <td><span class="badge badge-green">instantly-campaign/SKILL.md</span></td>
+          <td>Existing account</td>
+          <td>Cold email sequences to school owners</td>
+        </tr>
+        <tr>
+          <td><strong>DM Follow-Up</strong></td>
+          <td>Manual (WhatsApp)</td>
+          <td><span class="badge badge-green">albert-dm/SKILL.md</span></td>
+          <td class="td-green">FREE</td>
+          <td>Casual follow-up to warm leads in Albert's voice</td>
+        </tr>
+        <tr>
+          <td><strong>Client Onboarding</strong></td>
+          <td>Scaffold system</td>
+          <td><span class="badge badge-green">new-client-system/SKILL.md</span></td>
+          <td class="td-green">FREE</td>
+          <td>Per-client dashboard setup when scaling</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-bottom:12px">n8n Setup on AWS (Quick-Start)</h3>
+    <div class="code-block">
+<span class="comment"># SSH into your AWS EC2 instance, then run:</span>
+
+<span class="comment"># 1. Install Docker</span>
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+
+<span class="comment"># 2. Install Docker Compose</span>
+sudo apt install docker-compose-plugin -y
+
+<span class="comment"># 3. Create n8n directory</span>
+mkdir ~/n8n-stack && cd ~/n8n-stack
+
+<span class="comment"># 4. Pull docker-compose.yml (from your setup files)</span>
+<span class="comment"># 5. Start everything</span>
+docker compose up -d
+
+<span class="comment"># n8n now runs at http://YOUR_EC2_IP:5678</span>
+<span class="comment"># Add SSL via Caddy or Certbot for HTTPS (required for PayFast webhooks)</span>
+    </div>
+
+    <div class="card warning">
+      <h4>⚠️ AWS Security Group — Open These Ports</h4>
+      <p style="font-size:13px;margin-top:8px">In your EC2 Security Group, ensure <strong>port 5678</strong> (n8n) and <strong>port 443</strong> (HTTPS) are open to 0.0.0.0/0. Without HTTPS, PayFast and Meta webhooks will refuse to connect.</p>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 5: VOICE AGENT DEEP DIVE ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 05</div>
+    <h2>Voice Agent — Deep Dive</h2>
+    <div class="divider"></div>
+    <p class="section-intro">The voice agent is the premium tier of the offer. Most "AI chatbot" agencies don't include phone handling. This is your differentiator. A driving school owner who gets told "your AI will answer every single call, even at midnight" — that's a story they'll tell other school owners.</p>
+
+    <div class="card-grid" style="margin-bottom:20px">
+      <div class="card">
+        <h4>Why Vapi.ai (not Bland/Retell)</h4>
+        <ul style="font-size:13px;color:var(--muted);margin-top:8px">
+          <li><strong>Bland AI:</strong> $0.14/min, $299/month minimum — too expensive for SA</li>
+          <li><strong>Retell AI:</strong> $0.07/min base but loads to $0.13–$0.31 when you add LLM + TTS</li>
+          <li><strong>Vapi.ai:</strong> $0.05/min platform + $0.01/min Twilio = ~$0.06/min total</li>
+          <li>Vapi has the best native n8n integration (webhook tool calling)</li>
+          <li>No monthly platform fee — pure pay-as-you-go</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>SA Phone Setup</h4>
+        <ul style="font-size:13px;color:var(--muted);margin-top:8px">
+          <li>Get a Twilio SA local number: <strong>$1.50/month</strong></li>
+          <li>Import that number into Vapi dashboard</li>
+          <li>Client does a <strong>call forward</strong> on their existing number → Twilio number</li>
+          <li>No SIM swap needed. Client keeps their number visibly</li>
+          <li>Inbound call cost via Twilio SA: ~<strong>$0.01/min</strong> (~18c/min)</li>
+          <li>At 50 calls × 4 min avg = <strong>~R36/month</strong> in call costs</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:12px">Voice Agent System Prompt (Template)</h3>
+    <div class="script-box">
+      <div class="script-label">Vapi Assistant — System Prompt</div>
+      You are the automated booking assistant for [School Name], a driving school based in [City], South Africa. Your job is to help students book driving lessons, get pricing information, and schedule their lessons with an instructor.
+      <br><br>
+      You speak in a calm, friendly, South African English tone. You do not use American expressions. Be warm but efficient — students are usually young and slightly nervous.
+      <br><br>
+      When a student calls: (1) Greet them and ask what they need. (2) If booking — ask Code 8 or Code 10, automatic or manual, and their preferred days. (3) Use the check_availability tool to look up free slots. (4) Confirm the booking and tell them you're sending a WhatsApp with the deposit link. (5) If they have a complaint, test failure, or refund request — tell them the instructor will call them back and use the escalate_to_owner tool.
+      <br><br>
+      Never make up availability. Only quote slots the check_availability tool returns. Never discuss prices you're unsure of — say "I'll have the instructor confirm that with you."
+    </div>
+
+    <h3 style="margin-bottom:12px">Vapi ↔ n8n Tool Integration</h3>
+    <table>
+      <thead>
+        <tr><th>Vapi Tool Name</th><th>Calls n8n Webhook</th><th>What n8n Does</th><th>Returns to Vapi</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>check_availability</code></td>
+          <td>/webhook/check-slots</td>
+          <td>Queries Cal.com API for open instructor slots</td>
+          <td>List of 3 available time slots as text</td>
+        </tr>
+        <tr>
+          <td><code>create_booking</code></td>
+          <td>/webhook/create-booking</td>
+          <td>Creates Cal.com event + sends WhatsApp with PayFast link</td>
+          <td>"Booking confirmed — message sent to student's WhatsApp"</td>
+        </tr>
+        <tr>
+          <td><code>escalate_to_owner</code></td>
+          <td>/webhook/escalate</td>
+          <td>Sends WhatsApp alert to owner with caller's number + summary</td>
+          <td>"Owner notified — they'll call you back within 2 hours"</td>
+        </tr>
+        <tr>
+          <td>End-of-call webhook</td>
+          <td>/webhook/call-ended</td>
+          <td>Logs transcript, updates client CRM sheet</td>
+          <td>(no return needed)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── SECTION 6: COST BREAKDOWN ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 06</div>
+    <h2>Full Cost Breakdown</h2>
+    <div class="divider"></div>
+
+    <h3 style="margin-bottom:12px">Phase 0 — Build &amp; Demo (Week 1–2)</h3>
+    <table>
+      <thead><tr><th>Item</th><th>Cost</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>n8n (self-hosted on your AWS)</td><td class="td-green">R0</td><td>Uses your existing EC2</td></tr>
+        <tr><td>WhatsApp Business Cloud API</td><td class="td-green">R0</td><td>Free during test / sandbox mode</td></tr>
+        <tr><td>Cal.com</td><td class="td-green">R0</td><td>Free tier: unlimited bookings</td></tr>
+        <tr><td>PayFast sandbox</td><td class="td-green">R0</td><td>Test mode, no real money</td></tr>
+        <tr><td>Vapi.ai trial credits</td><td class="td-green">R0</td><td>~60–100 min free on signup</td></tr>
+        <tr><td>Claude API (small volume)</td><td>~R15</td><td>Well under $1 at testing volume</td></tr>
+        <tr class="highlight-row"><td><strong>TOTAL — Demo Phase</strong></td><td class="td-green"><strong>~R15</strong></td><td>Just the AI API tokens</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-bottom:12px;margin-top:20px">Phase 1 — First Client (Month 1–3)</h3>
+    <table>
+      <thead><tr><th>Item</th><th>Monthly Cost (ZAR)</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>AWS EC2 (existing)</td><td class="td-green">R0</td><td>Already paid</td></tr>
+        <tr><td>WhatsApp Cloud API</td><td class="td-green">R0 – R50</td><td>Free under 1,000 conv/month</td></tr>
+        <tr><td>Twilio SA number (per client)</td><td>~R27</td><td>$1.50/month per client number</td></tr>
+        <tr><td>Twilio call minutes (50 calls × 4min)</td><td>~R36</td><td>$0.01/min inbound SA</td></tr>
+        <tr><td>Vapi platform ($0.05/min × 200min)</td><td>~R185</td><td>Scales with call volume</td></tr>
+        <tr><td>Claude API (WhatsApp + post-call)</td><td>~R50–R80</td><td>Grows with WhatsApp traffic</td></tr>
+        <tr><td>Cal.com</td><td class="td-green">R0</td><td>Still on free tier</td></tr>
+        <tr><td>Domain for landing page (annual)</td><td>~R12/mo</td><td>~R150/year for .co.za</td></tr>
+        <tr class="highlight-row"><td><strong>TOTAL — 1 Client Running</strong></td><td class="td-green"><strong>~R300–R380/month</strong></td><td></td></tr>
+        <tr class="highlight-row"><td><strong>Revenue from 1 client (retainer)</strong></td><td class="td-green"><strong>R2,500/month</strong></td><td></td></tr>
+        <tr><td><strong>Net Profit</strong></td><td class="td-green"><strong>~R2,120–R2,200/mo</strong></td><td>87% margin</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-bottom:12px;margin-top:20px">Phase 2 — 5 Clients Running</h3>
+    <table>
+      <thead><tr><th>Item</th><th>Monthly Cost</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>All infrastructure (5x)</td><td>~R1,500</td><td>Costs scale linearly; margins improve</td></tr>
+        <tr><td>Total retainer revenue</td><td>R12,500</td><td>5 × R2,500/month</td></tr>
+        <tr class="highlight-row"><td><strong>Net Profit (retainers only)</strong></td><td class="td-green"><strong>R11,000/month</strong></td><td>88% margin</td></tr>
+        <tr><td><strong>+ Setup fees (new clients)</strong></td><td class="td-green">R8,000–R15,000 each</td><td>One-off per new client</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── SECTION 7: PRICING PACKAGES ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 07</div>
+    <h2>Client Pricing Packages</h2>
+    <div class="divider"></div>
+    <p class="section-intro">Present these three options to every prospect. Always anchor to the "Recommended" package. The Performance package exists as a fallback for risk-averse owners — you still win if the system performs.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Starter</h3>
+        <p class="pricing-desc">WhatsApp + Booking only. Voice agent not included. Good for a quick proof of concept.</p>
+        <div class="pricing-amount"><span class="pricing-currency">R</span>8,000</div>
+        <div class="pricing-period">once-off setup</div>
+        <ul class="pricing-features">
+          <li>WhatsApp AI intake agent</li>
+          <li>Cal.com booking integration</li>
+          <li>PayFast/Yoco payment links</li>
+          <li>24h lesson reminders</li>
+          <li>30 days support</li>
+          <li style="color:#ccc"><span style="color:#ccc">✗</span> Voice agent (phone)</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">⭐ Recommended</div>
+        <h3>Complete System</h3>
+        <p class="pricing-desc">Full WhatsApp + Voice + Booking system. Everything automated.</p>
+        <div class="pricing-amount"><span class="pricing-currency">R</span>15,000</div>
+        <div class="pricing-period">once-off + R2,500/month</div>
+        <ul class="pricing-features">
+          <li>WhatsApp AI intake agent</li>
+          <li>AI Voice agent (phone calls)</li>
+          <li>Cal.com booking integration</li>
+          <li>PayFast/Yoco payment links</li>
+          <li>Twilio SA number setup</li>
+          <li>24h reminders + follow-ups</li>
+          <li>Monthly reporting dashboard</li>
+          <li>Ongoing maintenance + updates</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Performance</h3>
+        <p class="pricing-desc">Zero upfront cost. You earn per confirmed booking. Best for risk-averse owners.</p>
+        <div class="pricing-amount"><span class="pricing-currency">R</span>500</div>
+        <div class="pricing-period">per confirmed student booking</div>
+        <ul class="pricing-features">
+          <li>Full Complete System installed</li>
+          <li>No setup fee</li>
+          <li>You eat setup cost (~R300)</li>
+          <li>Win on 10+ bookings/month</li>
+          <li>Minimum 3-month agreement</li>
+          <li>Monthly reporting included</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card warning" style="margin-top:16px">
+      <h4>📌 Negotiation Strategy</h4>
+      <p style="font-size:13px;margin-top:8px">Lead with the <strong>Complete System (R15,000)</strong>. If they resist the setup fee, offer <strong>R8,000 setup + R2,500/month</strong> — same retainer, lower barrier. If they still hesitate, offer the <strong>Performance deal as a 90-day trial only</strong>, then convert to retainer after they see results. Never drop below the performance model — anything less and you're giving away work.</p>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 8: OUTREACH STRATEGY ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 08</div>
+    <h2>Outreach Strategy</h2>
+    <div class="divider"></div>
+    <p class="section-intro">Three channels, ranked by conversion speed. Run all three in parallel from Week 2 onwards. Your Automation Skills folder has tools for the first two built-in.</p>
+
+    <h3 style="margin-bottom:12px">Channel 1 — Mystery Shopper WhatsApp (Fastest)</h3>
+    <div class="script-box">
+      <div class="script-label">Opening Message — Send at 7PM</div>
+      "Hi, I wanted to ask about getting Code 8 lessons for my younger sister. She's 18, looking to start ASAP. What packages do you have available and how much for a full package?"
+    </div>
+    <div class="script-box" style="margin-top:8px">
+      <div class="script-label">Follow-Up — Next Morning When They Reply</div>
+      "Hey [Owner Name], thanks for getting back to me. I actually sent that at 7PM last night — by the time you replied this morning, most people would've already booked at the next school.
+      <br><br>
+      I build an automated student intake system specifically for SA driving schools. It handles WhatsApp inquiries instantly, checks your instructor schedule, and takes a deposit — even at midnight, even while you're mid-lesson.
+      <br><br>
+      You have room for more students, or are your instructors already maxed out?"
+    </div>
+
+    <h3 style="margin-bottom:12px;margin-top:24px">Channel 2 — Cold Email via Instantly (16% Reply Rate Template)</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Use your <strong>instantly-campaign/SKILL.md</strong> to build a 5-email sequence. Subject: <strong>[School Name]</strong> (trailing space). Pain hypothesis: "missing 3–5 booking inquiries per day while instructors are on lessons."</p>
+
+    <table>
+      <thead><tr><th>#</th><th>Delay</th><th>Subject</th><th>Angle</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>3 days (pre)</td><td>[School Name] [space]</td><td>Pattern-interrupt: "Your WhatsApp replied to me 6 hours late last night"</td></tr>
+        <tr><td>2</td><td>3 days</td><td>(empty)</td><td>"Is there someone else at [School Name] I should contact?"</td></tr>
+        <tr><td>3</td><td>4 days</td><td>Missed Lead Calculator</td><td>Offer the asset: "I put together a calculator showing how much [School] could be losing monthly"</td></tr>
+        <tr><td>4</td><td>1 day</td><td>(empty)</td><td>Soft bump: "Did the calculator land in spam?"</td></tr>
+        <tr><td>5</td><td>4 days</td><td>(empty)</td><td>Second angle: voice agent — "What happens to your calls when you're mid-lesson?"</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-bottom:12px;margin-top:24px">Channel 3 — In-Person at Testing Grounds (Highest Trust)</h3>
+    <div class="script-box">
+      <div class="script-label">Walk-In Script (Waltloo / AVTS / Green Point / Local K53 Centre)</div>
+      "Excuse me, sorry to interrupt — quick one. I'm setting up an automated student intake system for a few driving schools in [Province]. It basically handles WhatsApp bookings and takes the deposit while the instructor is out on a lesson. Before I lock in the schools in this area, I just wanted to check — do you guys actually have capacity for more students right now, or are you already full?"
+    </div>
+    <div class="card accent" style="margin-top:8px">
+      <p style="font-size:13px"><strong>Why this works:</strong> The question "do you have capacity?" flips the frame. You're not selling to them — you're qualifying whether they deserve to be a client. Ego responds to scarcity. They'll want to be the school you pick.</p>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 9: TIMELINE ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 09</div>
+    <h2>Build &amp; Launch Timeline</h2>
+    <div class="divider"></div>
+
+    <div class="card dark" style="margin-bottom:20px">
+      <h3 style="color:var(--green-light);margin-bottom:16px">Week 1 — Build the Demo</h3>
+      <ul class="checklist">
+        <li>Docker + n8n running on AWS EC2 (exact Docker command in n8n/SKILL.md)</li>
+        <li>Meta Developer account created, WhatsApp test number connected</li>
+        <li>5-step WhatsApp intake flow built in n8n (Code 8/10 → availability → slot → payment link)</li>
+        <li>Cal.com free account set up, HTTP request nodes built in n8n</li>
+        <li>PayFast sandbox payment link generation in n8n</li>
+        <li>Vapi.ai account created, SA test call running</li>
+        <li>90-second Loom recorded of the full flow</li>
+      </ul>
+    </div>
+
+    <div class="card dark" style="margin-bottom:20px">
+      <h3 style="color:var(--green-light);margin-bottom:16px">Week 2 — Launch Outreach</h3>
+      <ul class="checklist">
+        <li>Landing page deployed to AWS EC2 with SSL</li>
+        <li>Instantly campaign built using instantly-campaign/SKILL.md (100 SA driving schools)</li>
+        <li>Mystery shopper messages sent to 10 schools via WhatsApp</li>
+        <li>In-person visits: 3–5 testing grounds in your area</li>
+        <li>Missed Lead Calculator asset created (Google Sheet, 10-minute build)</li>
+      </ul>
+    </div>
+
+    <div class="card dark" style="margin-bottom:20px">
+      <h3 style="color:var(--green-light);margin-bottom:16px">Weeks 3–4 — First Client</h3>
+      <ul class="checklist">
+        <li>Qualify 3 interested schools from outreach</li>
+        <li>Demo the live system (share Loom, then offer a 30-day free trial if needed)</li>
+        <li>Close 1 client on R8,000–R15,000 setup</li>
+        <li>Onboard: get their WhatsApp number, Cal.com access, Twilio number set up</li>
+        <li>Go live — monitor for first 7 days, fix edge cases</li>
+      </ul>
+    </div>
+
+    <div class="card dark">
+      <h3 style="color:var(--green-light);margin-bottom:16px">Month 2–3 — Scale to 3–5 Clients</h3>
+      <ul class="checklist">
+        <li>Use new-client-system/SKILL.md to scaffold each new client cleanly</li>
+        <li>Testimonial / case study from first client (bookings increased by X in 30 days)</li>
+        <li>Increase Instantly campaign to 500 schools nationally</li>
+        <li>Explore adjacent niches: beauty salons, auto repair shops, tutoring centres</li>
+        <li>Consider hiring 1 VA to handle outreach at scale (keep yourself in closing only)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 10: RISKS ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 10</div>
+    <h2>Risk Register</h2>
+    <div class="divider"></div>
+
+    <table>
+      <thead>
+        <tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>WhatsApp number banned</strong></td>
+          <td><span class="risk-low">Low</span></td>
+          <td><span class="risk-high">High</span></td>
+          <td>Use only official Meta Cloud API — never Evolution API or WAHA for client numbers</td>
+        </tr>
+        <tr>
+          <td><strong>Client's number is personal WA</strong></td>
+          <td><span class="risk-high">High</span></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td>Get client a new SIM (R5 at Checkers), register it as a WhatsApp Business API number. Include in onboarding checklist.</td>
+        </tr>
+        <tr>
+          <td><strong>Load shedding kills the demo</strong></td>
+          <td><span class="risk-high">High</span></td>
+          <td><span class="risk-high">High</span></td>
+          <td>Run EVERYTHING on AWS EC2 — never your laptop. Your VPS has 99.9% uptime regardless of SA load shedding.</td>
+        </tr>
+        <tr>
+          <td><strong>Client can't do tech setup</strong></td>
+          <td><span class="risk-high">High</span></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td>You handle 100% of technical setup. Client only needs to: (a) forward calls, (b) share access to their calendar. Keep it to 2 actions max.</td>
+        </tr>
+        <tr>
+          <td><strong>Slow outreach response rate</strong></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td>Run 3 channels simultaneously (WhatsApp, Instantly email, in-person). Don't wait for email responses before doing walk-ins.</td>
+        </tr>
+        <tr>
+          <td><strong>AI gives wrong pricing to student</strong></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td><span class="risk-low">Low</span></td>
+          <td>Train AI to say "The instructor will confirm pricing with you" for anything price-related. Only quote ranges, not exact amounts.</td>
+        </tr>
+        <tr>
+          <td><strong>PayFast ITN webhook fails</strong></td>
+          <td><span class="risk-low">Low</span></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td>Add retry logic in n8n (maxTries: 3). Log all payment events. Set up error workflow that alerts you via WhatsApp when a webhook fails.</td>
+        </tr>
+        <tr>
+          <td><strong>Vapi call quality bad in SA</strong></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td>Test with 5 test calls before going live with a client. Use Deepgram for STT (better SA English accuracy than Whisper). Twilio SA routing is solid.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── SECTION 11: REALISTIC ODDS ─── -->
+  <section>
+    <div class="section-label">Section 11</div>
+    <h2>Realistic Success Probability</h2>
+    <div class="divider"></div>
+
+    <div class="card-grid-3">
+      <div class="card" style="text-align:center">
+        <div style="font-size:42px;font-weight:900;color:var(--green)">85%</div>
+        <div style="font-size:13px;font-weight:600;color:var(--navy);margin:4px 0">Working demo in 7 days</div>
+        <div style="font-size:12px;color:var(--muted)">All tools exist in your folder. n8n + WhatsApp integration is well-documented.</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:42px;font-weight:900;color:var(--warning)">60%</div>
+        <div style="font-size:13px;font-weight:600;color:var(--navy);margin:4px 0">First paying client in 30 days</div>
+        <div style="font-size:12px;color:var(--muted)">Depends entirely on outreach consistency. Tech is ready — volume is the variable.</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:42px;font-weight:900;color:var(--green)">90%</div>
+        <div style="font-size:13px;font-weight:600;color:var(--navy);margin:4px 0">System works once built</div>
+        <div style="font-size:12px;color:var(--muted)">The stack is proven globally. Your n8n + Vapi skills are the exact right tools for this.</div>
+      </div>
+    </div>
+
+    <div class="card accent" style="margin-top:16px">
+      <h4>The Honest Truth</h4>
+      <p style="font-size:13px;margin-top:8px">The technology is not the hard part. n8n, Vapi, WhatsApp API — all of these are well-documented and you have the skill files to build them. The only variable that determines whether this makes money quickly is <strong>how many outreach conversations you start per day</strong>. If you send 20 WhatsApp messages and make 5 walk-in visits per week for 3 weeks, you will have at least 1 client. That's a near-certainty. The question is whether you execute on the outreach — not whether the system works.</p>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 12: NEXT STEPS ─── -->
+  <section class="page-break">
+    <div class="section-label">Section 12</div>
+    <h2>Your First 7 Days — Exact Actions</h2>
+    <div class="divider"></div>
+
+    <table>
+      <thead><tr><th>Day</th><th>Task</th><th>Time Required</th><th>Skill Used</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Today</strong></td>
+          <td>SSH into AWS. Run Docker + n8n. Open port 5678. Confirm n8n loads at EC2 IP.</td>
+          <td>~1 hour</td>
+          <td>n8n/SKILL.md</td>
+        </tr>
+        <tr>
+          <td><strong>Day 2</strong></td>
+          <td>Create Meta Developer account. Set up WhatsApp Business App. Connect test number. Send yourself a test WhatsApp via n8n webhook.</td>
+          <td>~2 hours</td>
+          <td>n8n/SKILL.md</td>
+        </tr>
+        <tr>
+          <td><strong>Day 3</strong></td>
+          <td>Build the 5-step intake conversation in n8n (Code 8/10 → auto/manual → day pref → name → slot offer). Test with your own phone.</td>
+          <td>~3 hours</td>
+          <td>n8n + customer-support/SKILL.md</td>
+        </tr>
+        <tr>
+          <td><strong>Day 4</strong></td>
+          <td>Sign up for Cal.com free. Create a test event type. Build n8n HTTP request to check availability. Test slot-checking from WhatsApp flow.</td>
+          <td>~2 hours</td>
+          <td>n8n/SKILL.md (HTTP node)</td>
+        </tr>
+        <tr>
+          <td><strong>Day 5</strong></td>
+          <td>Sign up for PayFast sandbox. Build payment link generation in n8n. Test payment → confirmation webhook → WhatsApp "booking confirmed" message.</td>
+          <td>~2 hours</td>
+          <td>n8n/SKILL.md (Webhook node)</td>
+        </tr>
+        <tr>
+          <td><strong>Day 6</strong></td>
+          <td>Sign up for Vapi.ai. Import a Twilio SA test number. Set up the assistant with the system prompt from Section 5. Test a call — confirm it checks Cal.com via n8n.</td>
+          <td>~3 hours</td>
+          <td>trigger-dev/SKILL.md + Vapi docs</td>
+        </tr>
+        <tr>
+          <td><strong>Day 7</strong></td>
+          <td>Record 90-second Loom of the full flow. Send it to 5 driving schools via WhatsApp with the mystery shopper script (Section 8). Deploy landing page to EC2.</td>
+          <td>~2 hours</td>
+          <td>instantly-campaign/SKILL.md + albert-dm/SKILL.md</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card dark" style="margin-top:16px;text-align:center;padding:36px">
+      <div style="font-size:13px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">The Goal</div>
+      <div style="font-size:26px;font-weight:900;color:white;margin-bottom:12px">By Day 7, you send a Loom of a working system<br>to 5 driving school owners.</div>
+      <div style="font-size:14px;color:rgba(255,255,255,0.6)">One of them says yes. That's R8,000–R15,000. Everything after that is scaling what already works.</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // Auto-prompt print on load for convenience
+  // Remove this line if you don't want it to auto-open print dialog
+  // window.addEventListener('load', () => setTimeout(() => window.print(), 1000));
+</script>
+
+</body>
+</html>
